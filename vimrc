@@ -18,6 +18,7 @@ Plugin 'mattn/calendar-vim'
 Plugin 'preservim/nerdtree'
 Plugin 'itchyny/lightline.vim'
 Plugin 'tpope/vim-fugitive'
+Plugin 'christoomey/vim-tmux-navigator'
 
 call vundle#end()
 filetype plugin indent on
@@ -59,19 +60,23 @@ let g:vimwiki_list=[
             \'auto_diary_index':1,
             \'links_space_char':'_',
             \'custom_wiki2html': 'vimwiki_markdown',
-            \ 'html_filename_parameterization': 1,
+            \'html_filename_parameterization': 1,
             \'css_file': '~/wiki/notes-perso/templates/default.css',
             \'template_path':'~/wiki/notes-perso/templates',
           \},
           \{
-            \ 'path':'~/wiki/work/',
+            \'path':'~/wiki/work/',
             \'html_path':'~/wiki/work/html',
             \'name':'work',
             \'syntax':'markdown',
-            \'ext':'wiki',
-            \'auto_export':1,
+            \'ext':'md',
+            \'auto_export':0,
             \'auto_tags':1,
+            \'auto_toc':1,
             \'auto_diary_index':1,
+            \'links_space_char':'_',
+            \'custom_wiki2html': 'vimwiki_markdown',
+            \'html_filename_parameterization': 1,
             \'css_file': '~/wiki/work/templates/default.css',
             \'template_path':'~/wiki/work/templates',
           \}
@@ -90,6 +95,8 @@ endfunction
 nmap <Leader>wa :call VimwikiFindAllIncompleteTasks()<CR>
 nmap <Leader>wx :call VimwikiFindIncompleteTasks()<CR>
 
+au BufNewFile ~/wiki/work/diary/*.md :silent 0r !~/.vim/bin/generate-vimwiki-diary-template '%'
+
 " Move between windows with a single command {{{1
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -97,6 +104,8 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " General settings {{{1
+set wildmenu
+set wildmode=longest:full,full
 set shellslash
 set t_Co=256
 set ts=2
